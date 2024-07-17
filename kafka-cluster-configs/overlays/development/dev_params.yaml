@@ -1,0 +1,10 @@
+kafkaBridgesReplicas: 1
+kafkaConnectorsReplicas: 1
+kafkaConnectsReplicas: 1
+kafkaMirrorMaker2sReplicas: 1
+kafkaMirrorMakersReplicas: 1
+kafkaNodePoolsReplicas: 1
+kafkaRebalancesReplicas: 1
+kafkasReplicas: 1
+kafkaTopicsReplicas: 1
+kafkaUsersReplicas: 1

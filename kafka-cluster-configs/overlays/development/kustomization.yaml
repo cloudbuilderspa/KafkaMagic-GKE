@@ -1,0 +1,19 @@
+resources:
+- ../../crds/kafkabridges.yaml
+- ../../crds/kafkaconnectors.yaml
+- ../../crds/kafkaconnects.yaml
+- ../../crds/kafkamirrormaker2s.yaml
+- ../../crds/kafkamirrormakers.yaml
+- ../../crds/kafkanodepools.yaml
+- ../../crds/kafkarebalances.yaml
+- ../../crds/kafkas.yaml
+- ../../crds/kafkatopics.yaml
+- ../../crds/kafkausers.yaml
+
+configMapGenerator:
+- name: dev-config
+  files:
+    - dev_params.yaml
+
+patchesStrategicMerge:
+- patch_dev.yaml
