@@ -1,0 +1,25 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kafka-broker-tls
+  namespace: kafka
+spec:
+  secretName: kafka-tls-secret
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - deinn
+  commonName: kafka
+  isCA: false
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+    - client auth
+  dnsNames:
+    - kafka
+    - kafka.kafka.svc
+  issuerRef:
+    name: my-ca-issuer
+    kind: Issuer

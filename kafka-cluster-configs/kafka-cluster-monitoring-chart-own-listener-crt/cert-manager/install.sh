@@ -1,0 +1,1 @@
+helm install cert-manager . -n cert-manager

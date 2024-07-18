@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kafka-tls
+spec:
+  secretName: kafka-tls-secret
+  issuerRef:
+    name: my-ca-issuer
+    kind: Issuer
+  commonName: kafka
+  dnsNames:
+  - kafka.default.svc.cluster.local
