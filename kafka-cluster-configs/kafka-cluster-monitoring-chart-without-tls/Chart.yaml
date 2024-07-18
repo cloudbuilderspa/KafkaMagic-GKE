@@ -1,0 +1,5 @@
+apiVersion: v2
+name: kafka-cluster-chart
+description: A Helm chart for deploying a Kafka Cluster with Strimzi
+version: 0.1.0
+appVersion: 3.6.0

@@ -1,0 +1,12 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: {{ include "kafka.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      strimzi.io/cluster: {{ include "kafka.fullname" . }}
+  endpoints:
+    - port: {{ .Values.global.podMonitoringKafkaPort }}
+      interval: {{ .Values.global.podMonitoringKafkaInterval }}
+      path: {{ .Values.global.podMonitoringKafkaPath }}

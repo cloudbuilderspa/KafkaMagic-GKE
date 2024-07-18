@@ -1,0 +1,112 @@
+global:
+  # Nombre del clúster / Cluster name
+  clusterName: "my-cluster-dev"
+  
+  # Versión de Kafka a utilizar / Kafka version to use
+  kafkaVersion: "3.6.2"
+  
+  # Número de réplicas para Kafka / Number of replicas for Kafka
+  kafkaReplicas: 1
+  
+  # Solicitudes de recursos para Kafka / Resource requests for Kafka
+  kafkaMemoryRequest: "2Gi"
+  kafkaCpuRequest: "500m"
+  
+  # Límites de recursos para Kafka / Resource limits for Kafka
+  kafkaMemoryLimit: "2Gi"
+  kafkaCpuLimit: "1"
+  
+  # Configuración de JVM para Kafka / JVM configuration for Kafka
+  kafkaJvmXms: "1024m"
+  kafkaJvmXmx: "1024m"
+  
+  # Configuración de factores de replicación / Replication factor configuration
+  offsetsTopicReplicationFactor: 1
+  transactionStateLogReplicationFactor: 1
+  transactionStateLogMinIsr: 1
+  defaultReplicationFactor: 1
+  minInsyncReplicas: 1
+  
+  # Versión del protocolo entre brokers / Inter-broker protocol version
+  interBrokerProtocolVersion: "3.4"
+  
+  # Configuración de almacenamiento para Kafka / Storage configuration for Kafka
+  kafkaStorageSize: "20Gi"
+  kafkaStorageClass: "standard"
+  
+  # Configuración de métricas para Kafka / Metrics configuration for Kafka
+  kafkaMetricsConfigName: "metrics-config"
+  kafkaMetricsConfigKey: "kafka-metrics-config.yml"
+  
+  # Número de réplicas para Zookeeper / Number of replicas for Zookeeper
+  zookeeperReplicas: 1
+  
+  # Solicitudes de recursos para Zookeeper / Resource requests for Zookeeper
+  zookeeperMemoryRequest: "1Gi"
+  zookeeperCpuRequest: "200m"
+  
+  # Límites de recursos para Zookeeper / Resource limits for Zookeeper
+  zookeeperMemoryLimit: "1Gi"
+  zookeeperCpuLimit: "500m"
+  
+  # Configuración de JVM para Zookeeper / JVM configuration for Zookeeper
+  zookeeperJvmXms: "512m"
+  zookeeperJvmXmx: "512m"
+  
+  # Configuración de almacenamiento para Zookeeper / Storage configuration for Zookeeper
+  zookeeperStorageSize: "20Gi"
+  zookeeperStorageClass: "standard"
+  
+  # Configuración de métricas para Zookeeper / Metrics configuration for Zookeeper
+  zookeeperMetricsConfigName: "metrics-config"
+  zookeeperMetricsConfigKey: "zookeeper-metrics-config.yml"
+  
+  # Solicitudes y límites de recursos para tlsSidecar / Resource requests and limits for tlsSidecar
+  tlsSidecarCpuRequest: "50m"
+  tlsSidecarMemoryRequest: "64Mi"
+  tlsSidecarCpuLimit: "100m"
+  tlsSidecarMemoryLimit: "64Mi"
+  
+  # Solicitudes y límites de recursos para topicOperator / Resource requests and limits for topicOperator
+  topicOperatorCpuRequest: "50m"
+  topicOperatorMemoryRequest: "256Mi"
+  topicOperatorCpuLimit: "100m"
+  topicOperatorMemoryLimit: "256Mi"
+  
+  # Solicitudes y límites de recursos para userOperator / Resource requests and limits for userOperator
+  userOperatorCpuRequest: "200m"
+  userOperatorEphemeralStorageRequest: "512Mi"
+  userOperatorMemoryRequest: "1Gi"
+  userOperatorCpuLimit: "200m"
+  userOperatorEphemeralStorageLimit: "512Mi"
+  userOperatorMemoryLimit: "1Gi"
+  
+  # Configuración de PodMonitoring para Kafka y Zookeeper / PodMonitoring configuration for Kafka and Zookeeper
+  podMonitoringKafkaPort: 9404
+  podMonitoringKafkaInterval: "30s"
+  podMonitoringKafkaPath: "/"
+  
+  # Configuración de Kafka Exporter / Kafka Exporter configuration
+  kafkaExporterReplicas: 1
+  kafkaExporterImage: "danielqsj/kafka-exporter:v1.6.0"
+  kafkaExporterKafkaServer: "kafka-cluster-my-cluster-dev-kafka-bootstrap.kafka.svc.cluster.local:9092"
+  kafkaExporterContainerPort: 9308
+  kafkaExporterPrometheusScheme: "http"
+  kafkaExporterPrometheusInterval: "30s"
+  kafkaExporterPrometheusPath: "/metrics"
+
+  # Habilitar listener externo / Enable external listener
+  externalListenerEnabled: true
+  
+  # Habilitar TLS en el listener externo / Enable TLS on external listener
+  externalListenerTls: true
+  
+  # Anotaciones DNS externas / External DNS annotations
+  externalDnsAnnotations:
+    enabled: false
+    dnsAnnotations:
+      external-dns.alpha.kubernetes.io/hostname: "kafka-bootstrap.mydomain.com."
+      external-dns.alpha.kubernetes.io/ttl: "60"
+
+  # Habilitar autorización simple / Enable simple authorization
+  authorizationEnabled: true

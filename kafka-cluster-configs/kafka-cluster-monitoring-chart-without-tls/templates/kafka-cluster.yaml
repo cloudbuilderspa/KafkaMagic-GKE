@@ -1,0 +1,156 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: {{ include "kafka.fullname" . }}
+spec:
+  kafka:
+    version: {{ .Values.global.kafkaVersion }}
+    replicas: {{ .Values.global.kafkaReplicas }}
+    template:
+      pod:
+        tolerations:
+          - key: "app.stateful/component"
+            operator: "Equal"
+            value: "kafka-broker"
+            effect: NoSchedule
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                preference:
+                  matchExpressions:
+                    - key: "app.stateful/component"
+                      operator: "In"
+                      values: 
+                        - "kafka-broker"
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: "topology.kubernetes.io/zone"
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: kafka
+                strimzi.io/cluster: {{ include "kafka.fullname" . }}
+                strimzi.io/component-type: kafka
+    resources:
+      requests:
+        memory: {{ .Values.global.kafkaMemoryRequest }}
+        cpu: {{ .Values.global.kafkaCpuRequest }}
+      limits:
+        memory: {{ .Values.global.kafkaMemoryLimit }}
+        cpu: {{ .Values.global.kafkaCpuLimit }}
+    jvmOptions:
+      -Xms: {{ .Values.global.kafkaJvmXms }}
+      -Xmx: {{ .Values.global.kafkaJvmXmx }}
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+      - name: external
+        port: 9094
+        type: loadbalancer
+        tls: {{ .Values.global.externalListenerTls }}
+        configuration:
+          bootstrap:
+            annotations: {{- toYaml .Values.global.externalDnsAnnotations.dnsAnnotations | nindent 12 }}
+    config:
+      offsets.topic.replication.factor: {{ .Values.global.offsetsTopicReplicationFactor }}
+      transaction.state.log.replication.factor: {{ .Values.global.transactionStateLogReplicationFactor }}
+      transaction.state.log.min.isr: {{ .Values.global.transactionStateLogMinIsr }}
+      default.replication.factor: {{ .Values.global.defaultReplicationFactor }}
+      min.insync.replicas: {{ .Values.global.minInsyncReplicas }}
+      inter.broker.protocol.version: "{{ .Values.global.interBrokerProtocolVersion }}"
+    storage:
+      type: jbod
+      volumes:
+        - id: 0
+          type: persistent-claim
+          size: {{ .Values.global.kafkaStorageSize }}
+          class: {{ .Values.global.kafkaStorageClass }}
+          deleteClaim: false
+    metricsConfig:
+      type: jmxPrometheusExporter
+      valueFrom:
+        configMapKeyRef:
+          name: {{ .Values.global.kafkaMetricsConfigName }}
+          key: {{ .Values.global.kafkaMetricsConfigKey }}
+    {{- if .Values.global.authorizationEnabled }}
+    authorization:
+      type: simple
+    {{- end }}
+  zookeeper:
+    template:
+      pod:
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                preference:
+                  matchExpressions:
+                    - key: "app.stateful/component"
+                      operator: "In"
+                      values: 
+                        - "zookeeper"
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: "topology.kubernetes.io/zone"
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: zookeeper
+                strimzi.io/cluster: {{ include "kafka.fullname" . }}
+                strimzi.io/component-type: zookeeper
+    replicas: {{ .Values.global.zookeeperReplicas }}
+    resources:
+      requests:
+        memory: {{ .Values.global.zookeeperMemoryRequest }}
+        cpu: {{ .Values.global.zookeeperCpuRequest }}
+      limits:
+        memory: {{ .Values.global.zookeeperMemoryLimit }}
+        cpu: {{ .Values.global.zookeeperCpuLimit }}
+    jvmOptions:
+      -Xms: {{ .Values.global.zookeeperJvmXms }}
+      -Xmx: {{ .Values.global.zookeeperJvmXmx }}
+    storage:
+      type: persistent-claim
+      size: {{ .Values.global.zookeeperStorageSize }}
+      class: {{ .Values.global.zookeeperStorageClass }}
+      deleteClaim: false
+    metricsConfig:
+      type: jmxPrometheusExporter
+      valueFrom:
+        configMapKeyRef:
+          name: {{ .Values.global.zookeeperMetricsConfigName }}
+          key: {{ .Values.global.zookeeperMetricsConfigKey }}
+  entityOperator:
+    tlsSidecar:
+      resources:
+        requests:
+          cpu: {{ .Values.global.tlsSidecarCpuRequest }}
+          memory: {{ .Values.global.tlsSidecarMemoryRequest }}
+        limits:
+          cpu: {{ .Values.global.tlsSidecarCpuLimit }}
+          memory: {{ .Values.global.tlsSidecarMemoryLimit }}
+    topicOperator:
+      resources:
+        requests:
+          cpu: {{ .Values.global.topicOperatorCpuRequest }}
+          memory: {{ .Values.global.topicOperatorMemoryRequest }}
+        limits:
+          cpu: {{ .Values.global.topicOperatorCpuLimit }}
+          memory: {{ .Values.global.topicOperatorMemoryLimit }}
+    userOperator:
+      resources:
+        requests:
+          cpu: {{ .Values.global.userOperatorCpuRequest }}
+          ephemeral-storage: {{ .Values.global.userOperatorEphemeralStorageRequest }}
+          memory: {{ .Values.global.userOperatorMemoryRequest }}
+        limits:
+          cpu: {{ .Values.global.userOperatorCpuLimit }}
+          ephemeral-storage: {{ .Values.global.userOperatorEphemeralStorageLimit }}
+          memory: {{ .Values.global.userOperatorMemoryLimit }}
