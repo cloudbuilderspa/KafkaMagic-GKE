@@ -1,1 +1,1 @@
-helm upgrade kafka-cluster . -n kafka
+helm upgrade kafka-cluster . -n strimzi-platform
