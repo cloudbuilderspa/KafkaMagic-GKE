@@ -34,6 +34,19 @@ global:
   kafkaStorageSize: "20Gi"
   kafkaStorageClass: "standard"
   
+  # Configuración de autorización para Kafka / Authorization configuration for Kafka
+  kafkaAuthorizationEnabled: true  # Cambia a true si deseas habilitar la autorización por defecto
+  kafkaAuthorization:
+    type: simple
+    superUsers:
+      - CN=my-user
+
+  # Habilitar la autenticación en los listeners / Enable authentication on listeners
+  kafkaListenersAuthenticationEnabled:  # Habilita la autenticación en los listeners
+    plain: false
+    tls: false
+    external: true
+
   # Configuración de métricas para Kafka / Metrics configuration for Kafka
   kafkaMetricsConfigName: "metrics-config"
   kafkaMetricsConfigKey: "kafka-metrics-config.yml"

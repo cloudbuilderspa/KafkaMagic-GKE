@@ -47,14 +47,26 @@ spec:
         port: 9092
         type: internal
         tls: false
+        {{- if .Values.global.kafkaListenersAuthenticationEnabled.plain }}
+        authentication:
+          type: scram-sha-512
+        {{- end }}
       - name: tls
         port: 9093
         type: internal
         tls: true
+        {{- if .Values.global.kafkaListenersAuthenticationEnabled.tls }}
+        authentication:
+          type: tls
+        {{- end }}
       - name: external
         port: 9094
         type: loadbalancer
         tls: {{ .Values.global.externalListenerTls }}
+        {{- if .Values.global.kafkaListenersAuthenticationEnabled.external }}
+        authentication:
+          type: tls
+        {{- end }}
         configuration:
           bootstrap:
             annotations: {{- toYaml .Values.global.externalDnsAnnotations.dnsAnnotations | nindent 12 }}
@@ -79,9 +91,13 @@ spec:
         configMapKeyRef:
           name: {{ .Values.global.kafkaMetricsConfigName }}
           key: {{ .Values.global.kafkaMetricsConfigKey }}
-    {{- if .Values.global.authorizationEnabled }}
+    {{- if .Values.global.kafkaAuthorizationEnabled }}
     authorization:
-      type: simple
+      type: {{ .Values.global.kafkaAuthorization.type }}
+      superUsers:
+        {{- range .Values.global.kafkaAuthorization.superUsers }}
+        - {{ . }}
+        {{- end }}
     {{- end }}
   zookeeper:
     template:
