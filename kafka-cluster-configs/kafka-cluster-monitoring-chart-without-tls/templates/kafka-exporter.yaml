@@ -1,3 +1,4 @@
+{{- if .Values.global.kafkaExporterEnabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,6 +14,11 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: kafka-exporter
+      annotations:
+        {{- if .Values.global.prometheusManagedServiceEnabled }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "{{ .Values.global.kafkaExporterContainerPort }}"
+        {{- end }}
     spec:
       containers:
         - name: exporter
@@ -22,7 +28,9 @@ spec:
           ports:
             - containerPort: {{ .Values.global.kafkaExporterContainerPort }}
               name: prometheus
+{{- end }}
 ---
+{{- if and .Values.global.kafkaExporterEnabled .Values.global.prometheusManagedServiceEnabled }}
 apiVersion: monitoring.googleapis.com/v1
 kind: PodMonitoring
 metadata:
@@ -39,3 +47,4 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: kafka-exporter
+{{- end }}

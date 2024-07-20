@@ -95,11 +95,14 @@ global:
   userOperatorMemoryLimit: "1Gi"
   
   # Configuración de PodMonitoring para Kafka y Zookeeper / PodMonitoring configuration for Kafka and Zookeeper
+  podMonitoringEnabled: true
   podMonitoringKafkaPort: 9404
   podMonitoringKafkaInterval: "30s"
   podMonitoringKafkaPath: "/"
+
   
   # Configuración de Kafka Exporter / Kafka Exporter configuration
+  kafkaExporterEnabled: true  # habilitar/deshabilitar Kafka Exporter
   kafkaExporterReplicas: 1
   kafkaExporterImage: "danielqsj/kafka-exporter:v1.6.0"
   kafkaExporterKafkaServer: "kafka-cluster-my-cluster-dev-kafka-bootstrap.kafka.svc.cluster.local:9092"
@@ -107,6 +110,10 @@ global:
   kafkaExporterPrometheusScheme: "http"
   kafkaExporterPrometheusInterval: "30s"
   kafkaExporterPrometheusPath: "/metrics"
+  prometheusManagedServiceEnabled: false  # habilitar/deshabilitar Prometheus Managed Service GCP
+
+
+
 
   # Habilitar listener externo / Enable external listener
   externalListenerEnabled: true

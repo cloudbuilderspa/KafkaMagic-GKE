@@ -1,7 +1,9 @@
+{{- if .Values.global.podMonitoringEnabled }}
 apiVersion: monitoring.googleapis.com/v1
 kind: PodMonitoring
 metadata:
   name: {{ include "kafka.fullname" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
@@ -10,3 +12,8 @@ spec:
     - port: {{ .Values.global.podMonitoringKafkaPort }}
       interval: {{ .Values.global.podMonitoringKafkaInterval }}
       path: {{ .Values.global.podMonitoringKafkaPath }}
+  targetLabels:
+    metadata:
+      - pod
+      - container
+{{- end }}
