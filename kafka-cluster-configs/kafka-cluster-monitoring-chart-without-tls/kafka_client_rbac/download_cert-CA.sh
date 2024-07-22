@@ -4,7 +4,7 @@ kubectl get secret my-user -n strimzi-platform -o jsonpath='{.data}'
 
 #Descargar y decodificar los secretos
 kubectl get secret strimzi-platform-my-cluster-dev-cluster-ca-cert -n strimzi-platform -o jsonpath='{.data.ca\.crt}' | base64 --decode > ca.crt
-kubectl get secret strimzi-platform-my-cluster-dev-cluster-ca-certt -n strimzi-platform -o jsonpath='{.data.ca\.password}' | base64 --decode > ca.password
+kubectl get secret strimzi-platform-my-cluster-dev-cluster-ca-cert -n strimzi-platform -o jsonpath='{.data.ca\.password}' | base64 --decode > ca.password
 
 kubectl get secret strimzi-platform-my-cluster-dev-cluster-ca-cert -n strimzi-platform -o jsonpath='{.data.ca\.p12}' | base64 --decode > ca.p12
 kubectl get secret my-user -n strimzi-platform -o jsonpath='{.data.user\.crt}' | base64 --decode > user.crt
