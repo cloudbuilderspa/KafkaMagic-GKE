@@ -93,27 +93,32 @@ global:
   userOperatorCpuLimit: "200m"
   userOperatorEphemeralStorageLimit: "512Mi"
   userOperatorMemoryLimit: "1Gi"
-  
-  # Configuración de PodMonitoring para Kafka y Zookeeper / PodMonitoring configuration for Kafka and Zookeeper
-  podMonitoringKafkaPort: 9404
-  podMonitoringKafkaInterval: "30s"
-  podMonitoringKafkaPath: "/"
-  
-  # Configuración de Kafka Exporter / Kafka Exporter configuration
+
+# Configuración de Kafka Exporter / Kafka Exporter configuration
+  kafkaExporterEnabled: true  # habilitar/deshabilitar Kafka Exporter
   kafkaExporterReplicas: 1
-  kafkaExporterImage: "danielqsj/kafka-exporter:v1.6.0"
-  kafkaExporterKafkaServer: "kafka-cluster-my-cluster-dev-kafka-bootstrap.kafka.svc.cluster.local:9092"
+  kafkaExporterImage: "danielqsj/kafka-exporter:v1.7.0"
+  kafkaExporterKafkaServer: "strimzi-platform-my-cluster-dev-kafka-bootstrap:9092"
   kafkaExporterContainerPort: 9308
   kafkaExporterPrometheusScheme: "http"
   kafkaExporterPrometheusInterval: "30s"
   kafkaExporterPrometheusPath: "/metrics"
 
+# Configuración de PodMonitoring para Kafka y Zookeeper / PodMonitoring configuration for Kafka and Zookeeper
+  podMonitoringEnabled: true
+  kafkaExporterPodMonitoringName: "kafka-exporter"
+  kafkaExporterPodMonitoringPartOf: "google-cloud-managed-prometheus"
+  kafkaExporterPodMonitoringPort: "prometheus"
+  kafkaExporterPodMonitoringScheme: "http"
+  kafkaExporterPodMonitoringInterval: "30s"
+  kafkaExporterPodMonitoringPath: "/metrics"
+
   # Habilitar listener externo / Enable external listener
   externalListenerEnabled: true
-  
+    
   # Habilitar TLS en el listener externo / Enable TLS on external listener
   externalListenerTls: true
-  
+    
   # Anotaciones DNS externas / External DNS annotations
   externalDnsAnnotations:
     enabled: false

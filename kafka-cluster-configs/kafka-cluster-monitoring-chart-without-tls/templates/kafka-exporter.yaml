@@ -1,3 +1,5 @@
+# templates/kafka-exporter.yaml
+{{- if .Values.global.kafkaExporterEnabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,27 +17,12 @@ spec:
         app.kubernetes.io/name: kafka-exporter
     spec:
       containers:
-        - name: exporter
-          image: {{ .Values.global.kafkaExporterImage }}
-          args:
-            - --kafka.server={{ .Values.global.kafkaExporterKafkaServer }}
-          ports:
-            - containerPort: {{ .Values.global.kafkaExporterContainerPort }}
-              name: prometheus
+      - name: exporter
+        image: {{ .Values.global.kafkaExporterImage }}
+        args:
+        - --kafka.server={{ .Values.global.kafkaExporterKafkaServer }}
+        ports:
+        - containerPort: {{ .Values.global.kafkaExporterContainerPort }}
+          name: prometheus
+{{- end }}
 ---
-apiVersion: monitoring.googleapis.com/v1
-kind: PodMonitoring
-metadata:
-  name: kafka-exporter
-  labels:
-    app.kubernetes.io/name: kafka-exporter
-    app.kubernetes.io/part-of: google-cloud-managed-prometheus
-spec:
-  endpoints:
-    - port: prometheus
-      scheme: {{ .Values.global.kafkaExporterPrometheusScheme }}
-      interval: {{ .Values.global.kafkaExporterPrometheusInterval }}
-      path: {{ .Values.global.kafkaExporterPrometheusPath }}
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: kafka-exporter

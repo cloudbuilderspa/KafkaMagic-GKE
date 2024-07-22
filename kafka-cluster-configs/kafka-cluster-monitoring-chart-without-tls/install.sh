@@ -1,1 +1,1 @@
-helm install kafka-cluster . -n kafka
+helm install strimzi-platform . -n strimzi-platform
