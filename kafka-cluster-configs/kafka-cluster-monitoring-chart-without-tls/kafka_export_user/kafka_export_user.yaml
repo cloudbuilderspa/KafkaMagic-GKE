@@ -1,0 +1,32 @@
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaUser
+metadata:
+  name: kafka-exporter-user
+  labels:
+    strimzi.io/cluster: strimzi-platform-my-cluster-dev
+spec:
+  authentication:
+    type: tls
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: '*'
+          patternType: literal
+        operation: Read
+      - resource:
+          type: topic
+          name: '*'
+          patternType: literal
+        operation: Describe
+      - resource:
+          type: group
+          name: '*'
+          patternType: literal
+        operation: Read
+      - resource:
+          type: group
+          name: '*'
+          patternType: literal
+        operation: Describe
