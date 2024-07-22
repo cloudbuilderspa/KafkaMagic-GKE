@@ -95,17 +95,17 @@ global:
   userOperatorMemoryLimit: "1Gi"
 
 # Configuración de Kafka Exporter / Kafka Exporter configuration
-  kafkaExporterEnabled: false  # habilitar/deshabilitar Kafka Exporter
+  kafkaExporterEnabled: true  # habilitar/deshabilitar Kafka Exporter
   kafkaExporterReplicas: 1
   kafkaExporterImage: "danielqsj/kafka-exporter:v1.7.0"
-  kafkaExporterKafkaServer: "kafka-cluster-my-cluster-dev-kafka-bootstrap:9092"
+  kafkaExporterKafkaServer: "strimzi-platform-my-cluster-dev-kafka-bootstrap:9092"
   kafkaExporterContainerPort: 9308
   kafkaExporterPrometheusScheme: "http"
   kafkaExporterPrometheusInterval: "30s"
   kafkaExporterPrometheusPath: "/metrics"
 
 # Configuración de PodMonitoring para Kafka y Zookeeper / PodMonitoring configuration for Kafka and Zookeeper
-  podMonitoringEnabled: false
+  podMonitoringEnabled: true
   kafkaExporterPodMonitoringName: "kafka-exporter"
   kafkaExporterPodMonitoringPartOf: "google-cloud-managed-prometheus"
   kafkaExporterPodMonitoringPort: "prometheus"
