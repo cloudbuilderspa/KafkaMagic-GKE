@@ -16,7 +16,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka-exporter
-  namespace: kafka
   labels:
     app.kubernetes.io/name: kafka-exporter
 spec:
@@ -56,7 +55,6 @@ apiVersion: monitoring.googleapis.com/v1
 kind: PodMonitoring
 metadata:
   name: kafka-exporter
-  namespace: kafka
   labels:
     app.kubernetes.io/name: kafka-exporter
     app.kubernetes.io/part-of: google-cloud-managed-prometheus
@@ -88,7 +86,6 @@ apiVersion: monitoring.googleapis.com/v1
 kind: Rules
 metadata:
   name: kafka-rules
-  namespace: kafka
   labels:
     app.kubernetes.io/component: rules
     app.kubernetes.io/name: kafka-rules
