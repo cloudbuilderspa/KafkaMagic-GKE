@@ -69,7 +69,10 @@ spec:
         {{- end }}
         configuration:
           bootstrap:
-            annotations: {{- toYaml .Values.global.externalDnsAnnotations.dnsAnnotations | nindent 12 }}
+            annotations:
+              {{- if .Values.global.externalDnsAnnotations.enabled }}
+              {{- toYaml .Values.global.externalDnsAnnotations.dnsAnnotations | nindent 14 }}
+              {{- end }}
     config:
       offsets.topic.replication.factor: {{ .Values.global.offsetsTopicReplicationFactor }}
       transaction.state.log.replication.factor: {{ .Values.global.transactionStateLogReplicationFactor }}
