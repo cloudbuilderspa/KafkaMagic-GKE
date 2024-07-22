@@ -21,6 +21,17 @@ spec:
         image: {{ .Values.global.kafkaExporterImage }}
         args:
         - --kafka.server={{ .Values.global.kafkaExporterKafkaServer }}
+        - --kafka.version=3.6.2
+        - --topic.filter=my-topic
+        - --group.filter=.*
+        - --log.level=info
+        - --verbosity=0
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: 9308
+          initialDelaySeconds: 5
+          periodSeconds: 10
         ports:
         - containerPort: {{ .Values.global.kafkaExporterContainerPort }}
           name: prometheus
