@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1beta1
+apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaUser
 metadata:
   name: kafka-exporter-user
@@ -14,19 +14,13 @@ spec:
           type: topic
           name: '*'
           patternType: literal
-        operation: Read
-      - resource:
-          type: topic
-          name: '*'
-          patternType: literal
-        operation: Describe
+        operations: 
+          - Read
+          - Describe
       - resource:
           type: group
           name: '*'
           patternType: literal
-        operation: Read
-      - resource:
-          type: group
-          name: '*'
-          patternType: literal
-        operation: Describe
+        operations: 
+          - Read
+          - Describe
