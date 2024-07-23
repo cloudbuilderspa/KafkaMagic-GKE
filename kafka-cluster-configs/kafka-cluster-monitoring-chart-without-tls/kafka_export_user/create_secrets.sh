@@ -4,6 +4,6 @@ kubectl create secret generic kafka-exporter-user-secrets \
   --from-file=user.key=user.key \
   --from-file=user-truststore.jks=user-truststore.jks \
   --from-file=user-keystore.jks=user-keystore.jks \
-  --from-literal=user.password=MxrJTQHOCVzfZZbSkL6td07fW0xmPtcU \
-  --from-literal=ca.password=SUwN7k9OcPvd \
-  -n strimzi-platform
+  --from-literal=user.password=UVrWJU6nhVgjp2euUj74iUMAepG95S2V \
+  --from-literal=ca.password=U55nQYcabZzU \
+  -n strimzi-platform-dev
