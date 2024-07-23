@@ -1,7 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
-  name: {{ include "kafka.fullname" . }}
+  name: {{ .Values.global.clusterName }}
 spec:
   kafka:
     version: {{ .Values.global.kafkaVersion }}
@@ -173,3 +173,6 @@ spec:
           cpu: {{ .Values.global.userOperatorCpuLimit }}
           ephemeral-storage: {{ .Values.global.userOperatorEphemeralStorageLimit }}
           memory: {{ .Values.global.userOperatorMemoryLimit }}
+  kafkaExporter:
+    topicRegex: ".*"
+    groupRegex: ".*"
