@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kafka-tools-client-rbac
+spec:
+  containers:
+  - name: kafka-tools-client-rbac
+    image: bitnami/kafka:latest
+    command: ["/bin/sh"]
+    args: ["-c", "sleep 3600"]
+    volumeMounts:
+    - name: ca-cert-secret
+      mountPath: /etc/tls/ca
+    - name: user-cert-secret
+      mountPath: /etc/tls/user
+    - name: strimzi-platform-client-config
+      mountPath: /etc/tls/config
+    env:
+    - name: KAFKA_BROKER
+      value: "34.176.189.0:9094" # Reemplaza con tu servidor bootstrap de Kafka
+    - name: KAFKA_OPTS
+      value: "-Djavax.net.ssl.keyStore=/etc/tls/user/user-keystore.jks -Djavax.net.ssl.keyStorePassword=changeit -Djavax.net.ssl.trustStore=/etc/tls/user/user-truststore.jks -Djavax.net.ssl.trustStorePassword=changeit"
+  restartPolicy: Never
+  volumes:
+  - name: ca-cert-secret
+    secret:
+      secretName: strimzi-platform-cluster-ca-cert-for-user
+  - name: user-cert-secret
+    secret:
+      secretName: my-user-secret
+  - name: strimzi-platform-client-config
+    configMap:
+      name: strimzi-platform-client-config

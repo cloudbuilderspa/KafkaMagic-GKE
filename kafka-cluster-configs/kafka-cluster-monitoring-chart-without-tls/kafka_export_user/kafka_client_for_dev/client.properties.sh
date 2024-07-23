@@ -1,0 +1,1 @@
+kubectl create configmap strimzi-platform-client-config --from-file=client.properties -n strimzi-platform-dev

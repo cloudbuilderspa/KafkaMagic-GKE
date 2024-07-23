@@ -1,1 +1,1 @@
-helm upgrade strimzi-platform . -n strimzi-platform
+helm upgrade strimzi-platform . -n strimzi-platform-dev
