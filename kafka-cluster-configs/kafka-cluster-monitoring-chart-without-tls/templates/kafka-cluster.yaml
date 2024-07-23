@@ -1,7 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
-  name: {{ .Values.global.clusterName }}
+  name: kafka-cluster
 spec:
   kafka:
     version: {{ .Values.global.kafkaVersion }}
@@ -30,7 +30,7 @@ spec:
             labelSelector:
               matchLabels:
                 app.kubernetes.io/name: kafka
-                strimzi.io/cluster: {{ include "kafka.fullname" . }}
+                strimzi.io/cluster: kafka-cluster
                 strimzi.io/component-type: kafka
     resources:
       requests:
@@ -47,32 +47,24 @@ spec:
         port: 9092
         type: internal
         tls: false
-        {{- if .Values.global.kafkaListenersAuthenticationEnabled.plain }}
         authentication:
           type: scram-sha-512
-        {{- end }}
       - name: tls
         port: 9093
         type: internal
         tls: true
-        {{- if .Values.global.kafkaListenersAuthenticationEnabled.tls }}
         authentication:
           type: tls
-        {{- end }}
       - name: external
         port: 9094
         type: loadbalancer
         tls: {{ .Values.global.externalListenerTls }}
-        {{- if .Values.global.kafkaListenersAuthenticationEnabled.external }}
         authentication:
           type: tls
-        {{- end }}
         configuration:
           bootstrap:
             annotations:
-              {{- if .Values.global.externalDnsAnnotations.enabled }}
-              {{- toYaml .Values.global.externalDnsAnnotations.dnsAnnotations | nindent 14 }}
-              {{- end }}
+              {{ toYaml .Values.global.externalDnsAnnotations.dnsAnnotations | nindent 14 }}
     config:
       offsets.topic.replication.factor: {{ .Values.global.offsetsTopicReplicationFactor }}
       transaction.state.log.replication.factor: {{ .Values.global.transactionStateLogReplicationFactor }}
@@ -94,14 +86,12 @@ spec:
         configMapKeyRef:
           name: {{ .Values.global.kafkaMetricsConfigName }}
           key: {{ .Values.global.kafkaMetricsConfigKey }}
-    {{- if .Values.global.kafkaAuthorizationEnabled }}
     authorization:
       type: {{ .Values.global.kafkaAuthorization.type }}
       superUsers:
         {{- range .Values.global.kafkaAuthorization.superUsers }}
         - {{ . }}
         {{- end }}
-    {{- end }}
   zookeeper:
     template:
       pod:
@@ -122,16 +112,16 @@ spec:
             labelSelector:
               matchLabels:
                 app.kubernetes.io/name: zookeeper
-                strimzi.io/cluster: {{ include "kafka.fullname" . }}
+                strimzi.io/cluster: kafka-cluster
                 strimzi.io/component-type: zookeeper
     replicas: {{ .Values.global.zookeeperReplicas }}
     resources:
       requests:
         memory: {{ .Values.global.zookeeperMemoryRequest }}
-        cpu: {{ .Values.global.zookeeperCpuRequest }}
+        cpu: "{{ .Values.global.zookeeperCpuRequest }}"  # Corregido
       limits:
         memory: {{ .Values.global.zookeeperMemoryLimit }}
-        cpu: {{ .Values.global.zookeeperCpuLimit }}
+        cpu: "{{ .Values.global.zookeeperCpuLimit }}"  # Corregido
     jvmOptions:
       -Xms: {{ .Values.global.zookeeperJvmXms }}
       -Xmx: {{ .Values.global.zookeeperJvmXmx }}

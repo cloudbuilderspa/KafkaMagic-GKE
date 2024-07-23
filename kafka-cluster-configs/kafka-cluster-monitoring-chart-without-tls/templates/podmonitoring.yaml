@@ -1,20 +1,20 @@
 
-  {{- if .Values.global.podMonitoringEnabled }}
-  apiVersion: monitoring.googleapis.com/v1
-  kind: PodMonitoring
-  metadata:
-    name: {{ .Values.global.kafkaExporterPodMonitoringName }}
-    labels:
-      app.kubernetes.io/name: {{ .Values.global.kafkaExporterPodMonitoringName }}
-      app.kubernetes.io/part-of: {{ .Values.global.kafkaExporterPodMonitoringPartOf }}
-  spec:
-    endpoints:
-    - port: {{ .Values.global.kafkaExporterPodMonitoringPort }}
-      scheme: {{ .Values.global.kafkaExporterPodMonitoringScheme }}
-      interval: {{ .Values.global.kafkaExporterPodMonitoringInterval }}
-      path: {{ .Values.global.kafkaExporterPodMonitoringPath }}
-    selector:
-      matchLabels:
-        app.kubernetes.io/name: {{ .Values.global.kafkaExporterPodMonitoringName }}
-  ---
-  {{- end }}
+# {{- if .Values.global.podMonitoringEnabled }}
+# apiVersion: monitoring.googleapis.com/v1
+# kind: PodMonitoring
+# metadata:
+#   name: {{ .Values.global.kafkaExporterPodMonitoringName }}
+#   labels:
+#     app.kubernetes.io/name: {{ .Values.global.kafkaExporterPodMonitoringName }}
+#     app.kubernetes.io/part-of: {{ .Values.global.kafkaExporterPodMonitoringPartOf }}
+# spec:
+#   endpoints:
+#   - port: {{ .Values.global.kafkaExporterPodMonitoringPort }}
+#     scheme: {{ .Values.global.kafkaExporterPodMonitoringScheme }}
+#     interval: {{ .Values.global.kafkaExporterPodMonitoringInterval }}
+#     path: {{ .Values.global.kafkaExporterPodMonitoringPath }}
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: {{ .Values.global.kafkaExporterPodMonitoringName }}
+# ---
+# {{- end }}
