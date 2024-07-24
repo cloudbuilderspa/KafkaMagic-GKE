@@ -48,7 +48,7 @@ global:
     external: true
 
   # Configuración de métricas para Kafka / Metrics configuration for Kafka
-  kafkaMetricsConfigName: "metrics-config"
+  kafkaMetricsConfigName: "kafka-metrics"
   kafkaMetricsConfigKey: "kafka-metrics-config.yml"
   
   # Número de réplicas para Zookeeper / Number of replicas for Zookeeper
@@ -71,7 +71,7 @@ global:
   zookeeperStorageClass: "standard"
   
   # Configuración de métricas para Zookeeper / Metrics configuration for Zookeeper
-  zookeeperMetricsConfigName: "metrics-config"
+  zookeeperMetricsConfigName: "kafka-metrics"
   zookeeperMetricsConfigKey: "zookeeper-metrics-config.yml"
   
   # Solicitudes y límites de recursos para tlsSidecar / Resource requests and limits for tlsSidecar
@@ -95,17 +95,17 @@ global:
   userOperatorMemoryLimit: "1Gi"
 
 # Configuración de Kafka Exporter / Kafka Exporter configuration
-  kafkaExporterEnabled: true  # habilitar/deshabilitar Kafka Exporter
+  kafkaExporterEnabled: false  # habilitar/deshabilitar Kafka Exporter
   kafkaExporterReplicas: 1
   kafkaExporterImage: "danielqsj/kafka-exporter:v1.7.0"
-  kafkaExporterKafkaServer: "strimzi-platform-my-cluster-dev-kafka-bootstrap:9092"
+  kafkaExporterKafkaServer: "strimzi-platform-my-cluster-dev-kafka-bootstrapx:9092"
   kafkaExporterContainerPort: 9308
   kafkaExporterPrometheusScheme: "http"
   kafkaExporterPrometheusInterval: "30s"
   kafkaExporterPrometheusPath: "/metrics"
 
 # Configuración de PodMonitoring para Kafka y Zookeeper / PodMonitoring configuration for Kafka and Zookeeper
-  podMonitoringEnabled: true
+  podMonitoringEnabled: false
   kafkaExporterPodMonitoringName: "kafka-exporter"
   kafkaExporterPodMonitoringPartOf: "google-cloud-managed-prometheus"
   kafkaExporterPodMonitoringPort: "prometheus"

@@ -173,3 +173,6 @@ spec:
           cpu: {{ .Values.global.userOperatorCpuLimit }}
           ephemeral-storage: {{ .Values.global.userOperatorEphemeralStorageLimit }}
           memory: {{ .Values.global.userOperatorMemoryLimit }}
+  kafkaExporter:
+    topicRegex: ".*"
+    groupRegex: ".*"
