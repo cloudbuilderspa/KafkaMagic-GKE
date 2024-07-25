@@ -80,6 +80,9 @@ spec:
       default.replication.factor: {{ .Values.global.defaultReplicationFactor }}
       min.insync.replicas: {{ .Values.global.minInsyncReplicas }}
       inter.broker.protocol.version: "{{ .Values.global.interBrokerProtocolVersion }}"
+      auto.create.topics.enable: {{ .Values.global.autoCreateTopicsEnable }}
+      num.partitions: {{ .Values.global.numPartitions }}
+      default.replication.factor: {{ .Values.global.defaultReplicationFactor }}
     storage:
       type: jbod
       volumes:

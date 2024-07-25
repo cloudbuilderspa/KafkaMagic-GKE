@@ -6,7 +6,7 @@ global:
   kafkaVersion: "3.6.2"
   
   # Número de réplicas para Kafka / Number of replicas for Kafka
-  kafkaReplicas: 1
+  kafkaReplicas: 3
   
   # Solicitudes de recursos para Kafka / Resource requests for Kafka
   kafkaMemoryRequest: "2Gi"
@@ -21,11 +21,14 @@ global:
   kafkaJvmXmx: "1024m"
   
   # Configuración de factores de replicación / Replication factor configuration
-  offsetsTopicReplicationFactor: 1
-  transactionStateLogReplicationFactor: 1
-  transactionStateLogMinIsr: 1
-  defaultReplicationFactor: 1
-  minInsyncReplicas: 1
+  offsetsTopicReplicationFactor: 3   # Factor de replicación para el tópico de offsets / Replication factor for the offsets topic
+  transactionStateLogReplicationFactor: 3  # Factor de replicación para el log de estado de transacciones / Replication factor for transaction state log
+  transactionStateLogMinIsr: 2  # Mínimo de réplicas sincronizadas para el log de estado de transacciones / Minimum in-sync replicas for transaction state log
+  defaultReplicationFactor: 3  # Factor de replicación predeterminado para nuevos tópicos / Default replication factor for new topics
+  minInsyncReplicas: 3  # Número mínimo de réplicas sincronizadas para confirmar una transacción / Minimum number of in-sync replicas for acknowledging a transaction
+  autoCreateTopicsEnable: true  # Habilita la creación automática de tópicos / Enables automatic creation of topics
+  numPartitions: 10  # Número predeterminado de particiones para nuevos tópicos / Default number of partitions for new topics
+  defaultReplicationFactor: 3  # Factor de replicación predeterminado para nuevos tópicos / Default replication factor for new topics
   
   # Versión del protocolo entre brokers / Inter-broker protocol version
   interBrokerProtocolVersion: "3.4"
@@ -52,7 +55,7 @@ global:
   kafkaMetricsConfigKey: "kafka-metrics-config.yml"
   
   # Número de réplicas para Zookeeper / Number of replicas for Zookeeper
-  zookeeperReplicas: 1
+  zookeeperReplicas: 3
   
   # Solicitudes de recursos para Zookeeper / Resource requests for Zookeeper
   zookeeperMemoryRequest: "1Gi"
