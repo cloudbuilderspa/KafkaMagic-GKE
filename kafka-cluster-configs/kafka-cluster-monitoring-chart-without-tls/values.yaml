@@ -6,7 +6,7 @@ global:
   kafkaVersion: "3.6.2"
   
   # Número de réplicas para Kafka / Number of replicas for Kafka
-  kafkaReplicas: 3
+  kafkaReplicas: 1
   
   # Solicitudes de recursos para Kafka / Resource requests for Kafka
   kafkaMemoryRequest: "2Gi"
@@ -55,7 +55,7 @@ global:
   kafkaMetricsConfigKey: "kafka-metrics-config.yml"
   
   # Número de réplicas para Zookeeper / Number of replicas for Zookeeper
-  zookeeperReplicas: 3
+  zookeeperReplicas: 1
   
   # Solicitudes de recursos para Zookeeper / Resource requests for Zookeeper
   zookeeperMemoryRequest: "1Gi"

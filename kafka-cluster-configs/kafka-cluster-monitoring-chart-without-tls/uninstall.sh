@@ -1,1 +1,1 @@
-helm uninstall kafka-cluster -n strimzi-platform
+helm uninstall strimzi-platform -n strimzi-platform
